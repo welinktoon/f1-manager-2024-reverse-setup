@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>F1 Manager Reverse Setup</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #10131b;
+      --panel: #1b2030;
+      --panel2: #252b3d;
+      --line: #384155;
+      --text: #f4f6fb;
+      --muted: #aeb6c6;
+      --cyan: #00e5ee;
+      --amber: #ffbe5c;
+      --field: #111521;
+      font-family: Inter, Segoe UI, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(120deg, rgba(0, 229, 238, .11), transparent 34%),
+        radial-gradient(circle at 80% 0%, rgba(255, 190, 92, .10), transparent 24%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    main {
+      width: min(980px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 34px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 48px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .badge {
+      min-height: 36px;
+      padding: 7px 12px;
+      border: 1px solid rgba(0, 229, 238, .5);
+      border-radius: 6px;
+      color: var(--cyan);
+      background: rgba(0, 229, 238, .08);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .intro {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border: 1px solid rgba(0, 229, 238, .22);
+      border-radius: 8px;
+      background: rgba(0, 229, 238, .055);
+    }
+
+    .intro strong {
+      color: var(--text);
+    }
+
+    .intro ol {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(27, 32, 48, .95);
+      box-shadow: 0 18px 54px rgba(0, 0, 0, .25);
+      overflow: hidden;
+    }
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--panel2);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .body {
+      padding: 16px;
+    }
+
+    .targets {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 190px 1fr 64px;
+      gap: 14px;
+      align-items: center;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, .07);
+      border-radius: 8px;
+      background: rgba(17, 21, 33, .74);
+    }
+
+    label {
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      min-height: 34px;
+      accent-color: var(--cyan);
+    }
+
+    .percent {
+      color: var(--cyan);
+      font-weight: 900;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 14px;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    button {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid rgba(0, 229, 238, .55);
+      border-radius: 7px;
+      color: var(--text);
+      background: linear-gradient(90deg, rgba(0, 229, 238, .20), rgba(255, 190, 92, .14));
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--cyan);
+    }
+
+    .results {
+      display: grid;
+      gap: 10px;
+    }
+
+    .card {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 8px;
+      background: rgba(17, 21, 33, .76);
+    }
+
+    .card:first-child {
+      border-color: rgba(0, 229, 238, .7);
+      background: rgba(0, 229, 238, .07);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      font-weight: 900;
+    }
+
+    .score {
+      color: var(--cyan);
+      font-size: 13px;
+    }
+
+    .values {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .value {
+      min-height: 76px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, .07);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .value span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .value strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .delta {
+      display: inline-block;
+      margin-left: 5px;
+      color: var(--amber);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .bias {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .bias div {
+      padding: 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.035);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .bias strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      header,
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .row,
+      .values,
+      .bias {
+        grid-template-columns: 1fr;
+      }
+
+      .percent {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Reverse Setup</h1>
+        <p>Калькулятор настройки болида для F1 Manager 2024. Работает как обратный подбор: выбираешь желаемые позиции меток, получаешь значения ползунков.</p>
+      </div>
+      <div class="badge">F1 Manager</div>
+    </header>
+
+    <div class="intro">
+      <p><strong>Для чего это:</strong> помогает быстрее попасть в оптимальные диапазоны настройки болида в F1 Manager 2024. Точность не идеальная из-за скрытых игровых округлений, но по модели калькулятора обычно попадает примерно на 90% и сильно ускоряет подбор.</p>
+      <ol>
+        <li>В игре смотри на бирюзовые оптимальные окна пяти характеристик.</li>
+        <li>На этой странице поставь ползунки примерно в центр нужных окон: 0% слева, 100% справа.</li>
+        <li>Нажми «Посчитать настройки» и перенеси лучший вариант в игру.</li>
+      </ol>
+    </div>
+
+    <section>
+      <div class="head">
+        <h2>Итоговые метки</h2>
+        <p id="targetSummary">50 / 50 / 50 / 50 / 50</p>
+      </div>
+      <div class="body">
+        <div class="targets">
+          <div class="row">
+            <label for="target-over">Изб. повор.</label>
+            <input id="target-over" type="range" min="0" max="100" step="1" value="50">
+            <span class="percent" id="target-over-value">50%</span>
+          </div>
+          <div class="row">
+            <label for="target-brake">Уст. при торможении</label>
+            <input id="target-brake" type="range" min="0" max="100" step="1" value="50">
+            <span class="percent" id="target-brake-value">50%</span>
+          </div>
+          <div class="row">
+            <label for="target-corner">Повороты</label>
+            <input id="target-corner" type="range" min="0" max="100" step="1" value="50">
+            <span class="percent" id="target-corner-value">50%</span>
+          </div>
+          <div class="row">
+            <label for="target-traction">Сцеп. с поверхностью</label>
+            <input id="target-traction" type="range" min="0" max="100" step="1" value="50">
+            <span class="percent" id="target-traction-value">50%</span>
+          </div>
+          <div class="row">
+            <label for="target-straight">Прямые участки</label>
+            <input id="target-straight" type="range" min="0" max="100" step="1" value="50">
+            <span class="percent" id="target-straight-value">50%</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <p>0% это левый край шкалы, 100% правый. Ставь ползунки примерно туда, где центр бирюзового оптимального окна.</p>
+          <button id="solve" type="button">Посчитать настройки</button>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:16px">
+      <div class="head">
+        <h2>Настройки</h2>
+        <p id="summary">готово</p>
+      </div>
+      <div class="body">
+        <div class="results" id="results"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const settings = [
+      { id: "front", label: "Переднее", suffix: "°", left: 0, right: 10, step: 0.5 },
+      { id: "rear", label: "Заднее", suffix: "°", left: 9, right: 16, step: 0.5 },
+      { id: "roll", label: "Anti-roll", suffix: "", left: 9, right: 1, step: 1, format: v => `${v}:${10 - v}` },
+      { id: "camber", label: "Развал", suffix: "°", left: -2.7, right: -3.5, step: 0.05 },
+      { id: "toe", label: "Toe", suffix: "°", left: 0, right: 1, step: 0.05 }
+    ];
+
+    const metrics = [
+      { id: "over", label: "Изб." },
+      { id: "brake", label: "Торм." },
+      { id: "corner", label: "Повор." },
+      { id: "traction", label: "Сцеп." },
+      { id: "straight", label: "Прям." }
+    ];
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const round = (value, decimals = 3) => Number(value.toFixed(decimals));
+
+    function setupIndexes(values) {
+      return {
+        A: Math.round(values.front / 0.5),
+        B: Math.round((values.rear - 9) / 0.5),
+        C: Math.round(9 - values.roll),
+        D: Math.round((-2.7 - values.camber) / 0.05),
+        E: Math.round(values.toe / 0.05)
+      };
+    }
+
+    function predictBias(values) {
+      const { A, B, C, D, E } = setupIndexes(values);
+      return {
+        over: clamp(0.5 + A * 2 / 100 + B * (-1 / 35) + C * (-1 / 80) + D * 1 / 160, 0, 1),
+        brake: clamp(0.45 + A * (-1 / 100) + B * 1 / 70 + C * 3 / 160 + D * (-1 / 64) + E * 1 / 100, 0, 1),
+        corner: clamp(0.2 + A * 3 / 200 + B * 1 / 56 + C * (-3 / 160) + D * 1 / 64 + E * (-1 / 400), 0, 1),
+        traction: clamp(0.25 + A * (-3 / 400) + B * 1 / 56 + C * 1 / 16 + D * (-1 / 160), 0, 1),
+        straight: clamp(1 + A * (-1 / 200) + B * (-9 / 140), 0, 1)
+      };
+    }
+
+    function readTargetBias() {
+      return Object.fromEntries(metrics.map(m => {
+        const value = Number(document.getElementById(`target-${m.id}`).value);
+        return [m.id, clamp(value / 100, 0, 1)];
+      }));
+    }
+
+    function updateTargetDisplays() {
+      const target = readTargetBias();
+      const parts = [];
+      for (const m of metrics) {
+        const value = Math.round(target[m.id] * 100);
+        document.getElementById(`target-${m.id}-value`).textContent = `${value}%`;
+        parts.push(value);
+      }
+      document.getElementById("targetSummary").textContent = parts.join(" / ");
+    }
+
+    function allDiscreteValues(setting) {
+      const count = Math.round(Math.abs((setting.right - setting.left) / setting.step));
+      const vals = [];
+      for (let i = 0; i <= count; i++) {
+        vals.push(round(setting.left + (setting.right - setting.left) * (i / count)));
+      }
+      return vals;
+    }
+
+    function formatValue(setting, value) {
+      if (setting.format) return setting.format(value);
+      const decimals = setting.step < 0.1 ? 2 : setting.step < 1 ? 1 : 0;
+      return `${value.toFixed(decimals).replace(".", ",")}${setting.suffix}`;
+    }
+
+    function score(values, target) {
+      const bias = predictBias(values);
+      let score = 0;
+      let absError = 0;
+      let maxError = 0;
+      for (const m of metrics) {
+        const error = Math.abs(bias[m.id] - target[m.id]);
+        score += Math.pow(error, 2) * 100;
+        absError += error;
+        maxError = Math.max(maxError, error);
+      }
+      return { score, bias, avgError: absError / metrics.length, maxError };
+    }
+
+    function pushTop(list, item, limit) {
+      list.push(item);
+      list.sort((a, b) => a.score - b.score);
+      if (list.length > limit) list.pop();
+    }
+
+    function solve() {
+      updateTargetDisplays();
+      const target = readTargetBias();
+      const top = [];
+      const ranges = Object.fromEntries(settings.map(s => [s.id, allDiscreteValues(s)]));
+
+      for (const front of ranges.front) {
+        for (const rear of ranges.rear) {
+          for (const roll of ranges.roll) {
+            for (const camber of ranges.camber) {
+              for (const toe of ranges.toe) {
+                const values = { front, rear, roll, camber, toe };
+                pushTop(top, { values, ...score(values, target) }, 8);
+              }
+            }
+          }
+        }
+      }
+
+      document.getElementById("summary").textContent = `лучшие ${top.length} вариантов`;
+      document.getElementById("results").innerHTML = top.map(renderResult).join("");
+    }
+
+    function renderResult(item, index) {
+      const valueHtml = settings.map(s => `
+        <div class="value">
+          <span>${s.label}</span>
+          <strong>${formatValue(s, item.values[s.id])}</strong>
+        </div>
+      `).join("");
+
+      const biasHtml = metrics.map(m => `
+        <div>
+          <strong>${m.label}</strong>
+          ${Math.round(item.bias[m.id] * 100)}%
+        </div>
+      `).join("");
+
+      return `
+        <article class="card">
+          <div class="card-top">
+            <span>${index === 0 ? "Лучший вариант" : `Вариант ${index + 1}`}</span>
+            <span class="score">средн. ${Math.round(item.avgError * 100)}%, макс. ${Math.round(item.maxError * 100)}%</span>
+          </div>
+          <div class="values">${valueHtml}</div>
+          <div class="bias">${biasHtml}</div>
+        </article>
+      `;
+    }
+
+    for (const m of metrics) {
+      document.getElementById(`target-${m.id}`).addEventListener("input", updateTargetDisplays);
+    }
+    document.getElementById("solve").addEventListener("click", solve);
+    updateTargetDisplays();
+    solve();
+  </script>
+</body>
+</html>
