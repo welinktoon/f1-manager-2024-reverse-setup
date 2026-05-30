@@ -248,6 +248,21 @@
       font-weight: 800;
     }
 
+    .delta.ok {
+      color: var(--cyan);
+    }
+
+    .notice {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 190, 92, .35);
+      border-radius: 7px;
+      background: rgba(255, 190, 92, .08);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
     .bias {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -436,16 +451,22 @@
 
     function score(values, target) {
       const bias = predictBias(values);
-      let score = 0;
+      let squareError = 0;
       let absError = 0;
       let maxError = 0;
       for (const m of metrics) {
         const error = Math.abs(bias[m.id] - target[m.id]);
-        score += Math.pow(error, 2) * 100;
+        squareError += Math.pow(error, 2);
         absError += error;
         maxError = Math.max(maxError, error);
       }
-      return { score, bias, avgError: absError / metrics.length, maxError };
+      const avgError = absError / metrics.length;
+      const rmsError = Math.sqrt(squareError / metrics.length);
+
+      // В игре важнее убрать самый дальний промах, чем сделать среднее число красивым:
+      // одна метка вне бирюзового окна обычно портит сетап сильнее нескольких малых сдвигов.
+      const score = maxError * 500 + avgError * 120 + rmsError * 80;
+      return { score, bias, avgError, maxError, rmsError };
     }
 
     function pushTop(list, item, limit) {
@@ -474,10 +495,14 @@
       }
 
       document.getElementById("summary").textContent = `лучшие ${top.length} вариантов`;
-      document.getElementById("results").innerHTML = top.map(renderResult).join("");
+      const best = top[0];
+      const notice = best && best.maxError > 0.08
+        ? `<div class="notice">Цель частично недостижима текущими дискретными ползунками: лучший компромисс оставляет худшее отклонение около ${Math.round(best.maxError * 100)}%. Бери вариант с меньшими +/- дельтами или уточни центр окна после следующей практики.</div>`
+        : "";
+      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index, target)).join("");
     }
 
-    function renderResult(item, index) {
+    function renderResult(item, index, target) {
       const valueHtml = settings.map(s => `
         <div class="value">
           <span>${s.label}</span>
@@ -485,12 +510,18 @@
         </div>
       `).join("");
 
-      const biasHtml = metrics.map(m => `
-        <div>
-          <strong>${m.label}</strong>
-          ${Math.round(item.bias[m.id] * 100)}%
-        </div>
-      `).join("");
+      const biasHtml = metrics.map(m => {
+        const predicted = Math.round(item.bias[m.id] * 100);
+        const delta = predicted - Math.round(target[m.id] * 100);
+        const sign = delta > 0 ? "+" : "";
+        const deltaClass = Math.abs(delta) <= 3 ? "delta ok" : "delta";
+        return `
+          <div>
+            <strong>${m.label}</strong>
+            ${predicted}% <span class="${deltaClass}">${sign}${delta}%</span>
+          </div>
+        `;
+      }).join("");
 
       return `
         <article class="card">
