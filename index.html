@@ -113,6 +113,10 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .head p {
+      text-align: right;
+    }
+
     h2 {
       margin: 0;
       font-size: 15px;
@@ -131,10 +135,10 @@
 
     .row {
       display: grid;
-      grid-template-columns: 190px 1fr 64px;
+      grid-template-columns: 190px 1fr 92px;
       gap: 14px;
       align-items: center;
-      min-height: 52px;
+      min-height: 92px;
       padding: 10px 12px;
       border: 1px solid rgba(255, 255, 255, .07);
       border-radius: 8px;
@@ -152,6 +156,92 @@
       accent-color: var(--cyan);
     }
 
+    input[type="number"] {
+      width: 74px;
+      min-height: 32px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 6px;
+      color: var(--text);
+      background: rgba(255, 255, 255, .045);
+      font: inherit;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .window-editor {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .window-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mini-field {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .center-readout {
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .range-preview {
+      position: relative;
+      height: 18px;
+      border-radius: 999px;
+      background:
+        linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(255,255,255,.16) 25%, transparent calc(25% + 1px), transparent calc(50% - 1px), rgba(255,255,255,.25) 50%, transparent calc(50% + 1px), transparent calc(75% - 1px), rgba(255,255,255,.16) 75%, transparent calc(75% + 1px)),
+        rgba(255,255,255,.09);
+      overflow: hidden;
+    }
+
+    .window-fill,
+    .center-marker {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .window-fill {
+      left: var(--window-left, 45%);
+      width: var(--window-width, 10%);
+      background: linear-gradient(90deg, rgba(0,229,238,.35), rgba(0,229,238,.85));
+      box-shadow: 0 0 18px rgba(0,229,238,.22);
+    }
+
+    .center-marker {
+      left: var(--window-center, 50%);
+      width: 3px;
+      transform: translateX(-50%);
+      background: var(--text);
+      opacity: .9;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+    }
+
     .percent {
       color: var(--cyan);
       font-weight: 900;
@@ -161,7 +251,7 @@
 
     .actions {
       display: grid;
-      grid-template-columns: 1fr 220px;
+      grid-template-columns: 1fr 160px 220px;
       gap: 14px;
       align-items: center;
       margin-top: 16px;
@@ -181,6 +271,12 @@
 
     button:hover {
       border-color: var(--cyan);
+    }
+
+    button.secondary {
+      border-color: rgba(255, 255, 255, .18);
+      background: rgba(255, 255, 255, .055);
+      color: var(--muted);
     }
 
     .results {
@@ -295,10 +391,48 @@
         grid-template-columns: 1fr;
       }
 
+      .head {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .head p {
+        text-align: left;
+        overflow-wrap: anywhere;
+      }
+
       .row,
       .values,
       .bias {
         grid-template-columns: 1fr;
+      }
+
+      .window-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: stretch;
+      }
+
+      .center-readout {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        text-align: left;
+      }
+
+      .mini-field:first-child {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .mini-field:last-child {
+        grid-column: 2;
+        grid-row: 2;
+        justify-content: end;
+      }
+
+      input[type="number"] {
+        width: 64px;
       }
 
       .percent {
@@ -334,34 +468,80 @@
       <div class="body">
         <div class="targets">
           <div class="row">
-            <label for="target-over">Изб. повор.</label>
-            <input id="target-over" type="range" min="0" max="100" step="1" value="50">
-            <span class="percent" id="target-over-value">50%</span>
+            <label for="target-over-center">Изб. повор.</label>
+            <div class="window-editor">
+              <div class="window-inputs">
+                <label class="mini-field" for="target-over-min">Мин <input id="target-over-min" type="number" min="0" max="100" step="1" value="45"></label>
+                <span class="center-readout" id="target-over-center-value">центр 50%</span>
+                <label class="mini-field" for="target-over-max">Макс <input id="target-over-max" type="number" min="0" max="100" step="1" value="55"></label>
+              </div>
+              <input id="target-over-center" type="range" min="0" max="100" step="1" value="50">
+              <div class="range-preview" id="target-over-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+            </div>
+            <span class="percent" id="target-over-value">45-55%</span>
           </div>
           <div class="row">
-            <label for="target-brake">Уст. при торможении</label>
-            <input id="target-brake" type="range" min="0" max="100" step="1" value="50">
-            <span class="percent" id="target-brake-value">50%</span>
+            <label for="target-brake-center">Уст. при торможении</label>
+            <div class="window-editor">
+              <div class="window-inputs">
+                <label class="mini-field" for="target-brake-min">Мин <input id="target-brake-min" type="number" min="0" max="100" step="1" value="45"></label>
+                <span class="center-readout" id="target-brake-center-value">центр 50%</span>
+                <label class="mini-field" for="target-brake-max">Макс <input id="target-brake-max" type="number" min="0" max="100" step="1" value="55"></label>
+              </div>
+              <input id="target-brake-center" type="range" min="0" max="100" step="1" value="50">
+              <div class="range-preview" id="target-brake-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+            </div>
+            <span class="percent" id="target-brake-value">45-55%</span>
           </div>
           <div class="row">
-            <label for="target-corner">Повороты</label>
-            <input id="target-corner" type="range" min="0" max="100" step="1" value="50">
-            <span class="percent" id="target-corner-value">50%</span>
+            <label for="target-corner-center">Повороты</label>
+            <div class="window-editor">
+              <div class="window-inputs">
+                <label class="mini-field" for="target-corner-min">Мин <input id="target-corner-min" type="number" min="0" max="100" step="1" value="45"></label>
+                <span class="center-readout" id="target-corner-center-value">центр 50%</span>
+                <label class="mini-field" for="target-corner-max">Макс <input id="target-corner-max" type="number" min="0" max="100" step="1" value="55"></label>
+              </div>
+              <input id="target-corner-center" type="range" min="0" max="100" step="1" value="50">
+              <div class="range-preview" id="target-corner-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+            </div>
+            <span class="percent" id="target-corner-value">45-55%</span>
           </div>
           <div class="row">
-            <label for="target-traction">Сцеп. с поверхностью</label>
-            <input id="target-traction" type="range" min="0" max="100" step="1" value="50">
-            <span class="percent" id="target-traction-value">50%</span>
+            <label for="target-traction-center">Сцеп. с поверхностью</label>
+            <div class="window-editor">
+              <div class="window-inputs">
+                <label class="mini-field" for="target-traction-min">Мин <input id="target-traction-min" type="number" min="0" max="100" step="1" value="45"></label>
+                <span class="center-readout" id="target-traction-center-value">центр 50%</span>
+                <label class="mini-field" for="target-traction-max">Макс <input id="target-traction-max" type="number" min="0" max="100" step="1" value="55"></label>
+              </div>
+              <input id="target-traction-center" type="range" min="0" max="100" step="1" value="50">
+              <div class="range-preview" id="target-traction-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+            </div>
+            <span class="percent" id="target-traction-value">45-55%</span>
           </div>
           <div class="row">
-            <label for="target-straight">Прямые участки</label>
-            <input id="target-straight" type="range" min="0" max="100" step="1" value="50">
-            <span class="percent" id="target-straight-value">50%</span>
+            <label for="target-straight-center">Прямые участки</label>
+            <div class="window-editor">
+              <div class="window-inputs">
+                <label class="mini-field" for="target-straight-min">Мин <input id="target-straight-min" type="number" min="0" max="100" step="1" value="45"></label>
+                <span class="center-readout" id="target-straight-center-value">центр 50%</span>
+                <label class="mini-field" for="target-straight-max">Макс <input id="target-straight-max" type="number" min="0" max="100" step="1" value="55"></label>
+              </div>
+              <input id="target-straight-center" type="range" min="0" max="100" step="1" value="50">
+              <div class="range-preview" id="target-straight-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+            </div>
+            <span class="percent" id="target-straight-value">45-55%</span>
           </div>
         </div>
 
         <div class="actions">
-          <p>0% это левый край шкалы, 100% правый. Ставь ползунки примерно туда, где центр бирюзового оптимального окна.</p>
+          <p>0% это левый край шкалы, 100% правый. Задавай мин/макс бирюзового окна, а ползунок двигает его центр.</p>
+          <button id="reset" class="secondary" type="button">Сброс</button>
           <button id="solve" type="button">Посчитать настройки</button>
         </div>
       </div>
@@ -397,6 +577,7 @@
 
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const round = (value, decimals = 3) => Number(value.toFixed(decimals));
+    const DEFAULT_WINDOW = { min: 45, max: 55 };
 
     function setupIndexes(values) {
       return {
@@ -419,22 +600,91 @@
       };
     }
 
+    function clampPercent(value) {
+      return Math.round(clamp(Number(value) || 0, 0, 100));
+    }
+
+    function normalizeWindow(min, max) {
+      const left = clampPercent(min);
+      const right = clampPercent(max);
+      return left <= right ? { min: left, max: right } : { min: right, max: left };
+    }
+
+    function readWindowPercent(id) {
+      return normalizeWindow(
+        document.getElementById(`target-${id}-min`).value,
+        document.getElementById(`target-${id}-max`).value
+      );
+    }
+
+    function writeWindowPercent(id, min, max) {
+      const normalized = normalizeWindow(min, max);
+      const center = Math.round((normalized.min + normalized.max) / 2);
+      const preview = document.getElementById(`target-${id}-preview`);
+
+      document.getElementById(`target-${id}-min`).value = normalized.min;
+      document.getElementById(`target-${id}-max`).value = normalized.max;
+      document.getElementById(`target-${id}-center`).value = center;
+      document.getElementById(`target-${id}-center-value`).textContent = `центр ${center}%`;
+      document.getElementById(`target-${id}-value`).textContent = `${normalized.min}-${normalized.max}%`;
+      preview.style.setProperty("--window-left", `${normalized.min}%`);
+      preview.style.setProperty("--window-width", `${normalized.max - normalized.min}%`);
+      preview.style.setProperty("--window-center", `${center}%`);
+      return { ...normalized, center };
+    }
+
+    function moveWindowByCenter(id, centerValue) {
+      const current = readWindowPercent(id);
+      const width = current.max - current.min;
+      let min = Math.round(clampPercent(centerValue) - width / 2);
+      let max = min + width;
+      if (min < 0) {
+        max -= min;
+        min = 0;
+      }
+      if (max > 100) {
+        min -= max - 100;
+        max = 100;
+      }
+      writeWindowPercent(id, min, max);
+    }
+
+    function updateWindowEdge(id, edge) {
+      let min = clampPercent(document.getElementById(`target-${id}-min`).value);
+      let max = clampPercent(document.getElementById(`target-${id}-max`).value);
+      if (edge === "min" && min > max) max = min;
+      if (edge === "max" && max < min) min = max;
+      writeWindowPercent(id, min, max);
+      updateTargetDisplays();
+    }
+
     function readTargetBias() {
       return Object.fromEntries(metrics.map(m => {
-        const value = Number(document.getElementById(`target-${m.id}`).value);
-        return [m.id, clamp(value / 100, 0, 1)];
+        const window = readWindowPercent(m.id);
+        return [m.id, {
+          min: window.min / 100,
+          max: window.max / 100,
+          center: ((window.min + window.max) / 2) / 100
+        }];
       }));
     }
 
     function updateTargetDisplays() {
-      const target = readTargetBias();
       const parts = [];
       for (const m of metrics) {
-        const value = Math.round(target[m.id] * 100);
-        document.getElementById(`target-${m.id}-value`).textContent = `${value}%`;
-        parts.push(value);
+        const window = readWindowPercent(m.id);
+        const written = writeWindowPercent(m.id, window.min, window.max);
+        parts.push(`${written.min}-${written.max}`);
       }
       document.getElementById("targetSummary").textContent = parts.join(" / ");
+    }
+
+    function resetTargets() {
+      for (const m of metrics) {
+        writeWindowPercent(m.id, DEFAULT_WINDOW.min, DEFAULT_WINDOW.max);
+      }
+      updateTargetDisplays();
+      solve();
     }
 
     function allDiscreteValues(setting) {
@@ -452,24 +702,43 @@
       return `${value.toFixed(decimals).replace(".", ",")}${setting.suffix}`;
     }
 
+    function metricErrors(value, targetWindow) {
+      const outside = value < targetWindow.min
+        ? targetWindow.min - value
+        : value > targetWindow.max
+          ? value - targetWindow.max
+          : 0;
+      return {
+        center: Math.abs(value - targetWindow.center),
+        outside,
+        hit: outside === 0
+      };
+    }
+
     function score(values, target) {
       const bias = predictBias(values);
-      let squareError = 0;
-      let absError = 0;
+      let centerSquareError = 0;
+      let centerAbsError = 0;
+      let outsideAbsError = 0;
       let maxError = 0;
+      let outsideMax = 0;
+      let hits = 0;
       for (const m of metrics) {
-        const error = Math.abs(bias[m.id] - target[m.id]);
-        squareError += Math.pow(error, 2);
-        absError += error;
-        maxError = Math.max(maxError, error);
+        const error = metricErrors(bias[m.id], target[m.id]);
+        centerSquareError += Math.pow(error.center, 2);
+        centerAbsError += error.center;
+        outsideAbsError += error.outside;
+        maxError = Math.max(maxError, error.center);
+        outsideMax = Math.max(outsideMax, error.outside);
+        if (error.hit) hits += 1;
       }
-      const avgError = absError / metrics.length;
-      const rmsError = Math.sqrt(squareError / metrics.length);
+      const avgError = centerAbsError / metrics.length;
+      const outsideAvg = outsideAbsError / metrics.length;
+      const rmsError = Math.sqrt(centerSquareError / metrics.length);
 
-      // В игре важнее убрать самый дальний промах, чем сделать среднее число красивым:
-      // одна метка вне бирюзового окна обычно портит сетап сильнее нескольких малых сдвигов.
-      const score = maxError * 500 + avgError * 120 + rmsError * 80;
-      return { score, bias, avgError, maxError, rmsError };
+      // Сначала загоняем метки внутрь игровых окон, потом выбираем самый близкий к центрам вариант.
+      const score = outsideMax * 3000 + outsideAvg * 900 + (metrics.length - hits) * 55 + maxError * 100 + avgError * 50 + rmsError * 30;
+      return { score, bias, avgError, maxError, rmsError, outsideAvg, outsideMax, hits };
     }
 
     function pushTop(list, item, limit) {
@@ -499,8 +768,8 @@
 
       document.getElementById("summary").textContent = `лучшие ${top.length} вариантов`;
       const best = top[0];
-      const notice = best && best.maxError > 0.08
-        ? `<div class="notice">Цель частично недостижима текущими дискретными ползунками: лучший компромисс оставляет худшее отклонение около ${Math.round(best.maxError * 100)}%. Бери вариант с меньшими +/- дельтами или уточни центр окна после следующей практики.</div>`
+      const notice = best && best.outsideMax > 0
+        ? `<div class="notice">Все окна одновременно не сходятся на дискретных ползунках: лучший компромисс попадает в ${best.hits}/5 окон, худший вылет за границу около ${Math.ceil(best.outsideMax * 100)}%. Расширь окно, если в игре оно шире, или бери вариант с меньшими +/- дельтами.</div>`
         : "";
       document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index, target)).join("");
     }
@@ -515,13 +784,16 @@
 
       const biasHtml = metrics.map(m => {
         const predicted = Math.round(item.bias[m.id] * 100);
-        const delta = predicted - Math.round(target[m.id] * 100);
-        const sign = delta > 0 ? "+" : "";
-        const deltaClass = Math.abs(delta) <= 3 ? "delta ok" : "delta";
+        const min = Math.round(target[m.id].min * 100);
+        const max = Math.round(target[m.id].max * 100);
+        const outside = predicted < min ? predicted - min : predicted > max ? predicted - max : 0;
+        const sign = outside > 0 ? "+" : "";
+        const deltaClass = outside === 0 ? "delta ok" : "delta";
+        const deltaText = outside === 0 ? "в окне" : `${sign}${outside}%`;
         return `
           <div>
             <strong>${m.label}</strong>
-            ${predicted}% <span class="${deltaClass}">${sign}${delta}%</span>
+            ${predicted}% <span class="${deltaClass}">${deltaText}</span>
           </div>
         `;
       }).join("");
@@ -530,7 +802,7 @@
         <article class="card">
           <div class="card-top">
             <span>${index === 0 ? "Лучший вариант" : `Вариант ${index + 1}`}</span>
-            <span class="score">средн. ${Math.round(item.avgError * 100)}%, макс. ${Math.round(item.maxError * 100)}%</span>
+            <span class="score">в окне ${item.hits}/5, ср. от центра ${Math.round(item.avgError * 100)}%</span>
           </div>
           <div class="values">${valueHtml}</div>
           <div class="bias">${biasHtml}</div>
@@ -539,9 +811,15 @@
     }
 
     for (const m of metrics) {
-      document.getElementById(`target-${m.id}`).addEventListener("input", updateTargetDisplays);
+      document.getElementById(`target-${m.id}-min`).addEventListener("input", () => updateWindowEdge(m.id, "min"));
+      document.getElementById(`target-${m.id}-max`).addEventListener("input", () => updateWindowEdge(m.id, "max"));
+      document.getElementById(`target-${m.id}-center`).addEventListener("input", event => {
+        moveWindowByCenter(m.id, event.target.value);
+        updateTargetDisplays();
+      });
     }
     document.getElementById("solve").addEventListener("click", solve);
+    document.getElementById("reset").addEventListener("click", resetTargets);
     updateTargetDisplays();
     solve();
   </script>

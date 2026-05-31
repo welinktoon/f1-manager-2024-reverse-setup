@@ -1,19 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="F1 Manager setup">
-  <defs>
-    <linearGradient id="bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22283b"/>
-      <stop offset="1" stop-color="#0a111c"/>
-    </linearGradient>
-    <linearGradient id="cyan" x1="13" y1="44" x2="59" y2="20" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#00f5ff"/>
-      <stop offset="1" stop-color="#00a8ff"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
-  <path d="M8 47c11-3 18-9 24-18 4-6 9-10 18-11" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".22"/>
-  <path d="M11 43c12-2 20-8 27-18 4-5 9-8 17-9" fill="none" stroke="url(#cyan)" stroke-width="4.5" stroke-linecap="round"/>
-  <path d="M47 17l8-7 2 10z" fill="#ff365d"/>
-  <text x="12" y="38" fill="#ffffff" font-family="Arial Black, Impact, sans-serif" font-size="25" font-weight="900" letter-spacing="-2">F1</text>
-  <path d="M35 43h17" stroke="#00f5ff" stroke-width="4" stroke-linecap="round"/>
-  <path d="M41 50h9" stroke="#ffbe5c" stroke-width="3" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="F1 setup">
+  <rect width="64" height="64" rx="14" fill="#10131b"/>
+  <path d="M12 39h18l8-14h15" fill="none" stroke="#00e5ee" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 25h17" stroke="#f4f6fb" stroke-width="7" stroke-linecap="round"/>
+  <path d="M44 25l8-8" stroke="#ff365d" stroke-width="7" stroke-linecap="round"/>
 </svg>

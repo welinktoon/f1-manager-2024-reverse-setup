@@ -28,23 +28,43 @@ function predictBias(values) {
 
 function score(values, target) {
   const bias = predictBias(values);
-  let squareError = 0;
-  let absError = 0;
+  let centerSquareError = 0;
+  let centerAbsError = 0;
+  let outsideAbsError = 0;
   let maxError = 0;
+  let outsideMax = 0;
+  let hits = 0;
   for (const m of metrics) {
-    const error = Math.abs(bias[m] - target[m]);
-    squareError += Math.pow(error, 2);
-    absError += error;
-    maxError = Math.max(maxError, error);
+    const center = Math.abs(bias[m] - target[m].center);
+    const outside = bias[m] < target[m].min
+      ? target[m].min - bias[m]
+      : bias[m] > target[m].max
+        ? bias[m] - target[m].max
+        : 0;
+    centerSquareError += Math.pow(center, 2);
+    centerAbsError += center;
+    outsideAbsError += outside;
+    maxError = Math.max(maxError, center);
+    outsideMax = Math.max(outsideMax, outside);
+    if (outside === 0) hits += 1;
   }
-  const avgError = absError / metrics.length;
-  const rmsError = Math.sqrt(squareError / metrics.length);
-  return { score: maxError * 500 + avgError * 120 + rmsError * 80, avgError, maxError, bias };
+  const avgError = centerAbsError / metrics.length;
+  const outsideAvg = outsideAbsError / metrics.length;
+  const rmsError = Math.sqrt(centerSquareError / metrics.length);
+  return {
+    score: outsideMax * 3000 + outsideAvg * 900 + (metrics.length - hits) * 55 + maxError * 100 + avgError * 50 + rmsError * 30,
+    avgError,
+    maxError,
+    outsideAvg,
+    outsideMax,
+    hits,
+    bias
+  };
 }
 
 function oldScore(values, target) {
   const bias = predictBias(values);
-  return metrics.reduce((sum, m) => sum + Math.pow(Math.abs(bias[m] - target[m]), 2) * 100, 0);
+  return metrics.reduce((sum, m) => sum + Math.pow(Math.abs(bias[m] - target[m].center), 2) * 100, 0);
 }
 
 function solve(target, scorer = score) {
@@ -82,19 +102,33 @@ function roundedBias(values) {
 const screenshotSetup = { front: 7.5, rear: 11, roll: 5, camber: -3.5, toe: 0 };
 assert.deepEqual(roundedBias(screenshotSetup), [74, 18, 67, 36, 67]);
 
-const exactTarget = predictBias({ front: 4.5, rear: 11, roll: 6, camber: -3.25, toe: 0.3 });
+function asWindowTarget(center, width = 0) {
+  return Object.fromEntries(metrics.map(m => [m, {
+    min: center[m] - width,
+    max: center[m] + width,
+    center: center[m]
+  }]));
+}
+
+const exactTarget = asWindowTarget(predictBias({ front: 4.5, rear: 11, roll: 6, camber: -3.25, toe: 0.3 }));
 const exactBest = solve(exactTarget);
 assert.deepEqual(exactBest.values, { front: 4.5, rear: 11, roll: 6, camber: -3.25, toe: 0.3 });
 assert.ok(exactBest.maxError < 1e-9);
+assert.equal(exactBest.hits, 5);
 
-const screenshotTarget = {
+const screenshotTarget = asWindowTarget({
   over: 0.67,
   brake: 0.19,
   corner: 0.80,
   traction: 0.40,
   straight: 0.77
-};
+}, 0.04);
 const oldBest = solve(screenshotTarget, oldScore);
 const newBest = solve(screenshotTarget);
-assert.ok(newBest.maxError < score(oldBest.values, screenshotTarget).maxError);
-assert.ok(newBest.maxError <= 0.112);
+assert.ok(newBest.outsideMax <= score(oldBest.values, screenshotTarget).outsideMax);
+assert.ok(newBest.hits >= score(oldBest.values, screenshotTarget).hits);
+
+const wideTarget = asWindowTarget(predictBias({ front: 8, rear: 13, roll: 5, camber: -3.4, toe: 0.5 }), 0.03);
+const wideBest = solve(wideTarget);
+assert.equal(wideBest.hits, 5);
+assert.equal(wideBest.outsideMax, 0);
