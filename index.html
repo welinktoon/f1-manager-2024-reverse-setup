@@ -135,7 +135,7 @@
 
     .row {
       display: grid;
-      grid-template-columns: 190px 1fr 92px;
+      grid-template-columns: 190px 1fr;
       gap: 14px;
       align-items: center;
       min-height: 92px;
@@ -240,13 +240,6 @@
       color: var(--muted);
       font-size: 11px;
       line-height: 1;
-    }
-
-    .percent {
-      color: var(--cyan);
-      font-weight: 900;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
     }
 
     .actions {
@@ -435,9 +428,6 @@
         width: 64px;
       }
 
-      .percent {
-        text-align: left;
-      }
     }
   </style>
 </head>
@@ -452,10 +442,10 @@
     </header>
 
     <div class="intro">
-      <p><strong>Для чего это:</strong> помогает быстрее попасть в оптимальные диапазоны настройки болида в F1 Manager 2024. Точность не идеальная из-за скрытых игровых округлений, но по модели калькулятора обычно попадает примерно на 90% и сильно ускоряет подбор.</p>
+      <p><strong>Для чего это:</strong> помогает быстрее попасть в оптимальные диапазоны настройки болида в F1 Manager 2024. Точность не идеальная из-за скрытых игровых округлений, но окно мин/макс обычно сильно ускоряет подбор.</p>
       <ol>
         <li>В игре смотри на бирюзовые оптимальные окна пяти характеристик.</li>
-        <li>На этой странице поставь ползунки примерно в центр нужных окон: 0% слева, 100% справа.</li>
+        <li>На этой странице задай левый и правый край нужных окон.</li>
         <li>Нажми «Посчитать настройки» и перенеси лучший вариант в игру.</li>
       </ol>
     </div>
@@ -463,7 +453,7 @@
     <section>
       <div class="head">
         <h2>Итоговые метки</h2>
-        <p id="targetSummary">50 / 50 / 50 / 50 / 50</p>
+        <p id="targetSummary">мин / макс</p>
       </div>
       <div class="body">
         <div class="targets">
@@ -472,75 +462,70 @@
             <div class="window-editor">
               <div class="window-inputs">
                 <label class="mini-field" for="target-over-min">Мин <input id="target-over-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-over-center-value">центр 50%</span>
+                <span class="center-readout" id="target-over-center-value">центр 50</span>
                 <label class="mini-field" for="target-over-max">Макс <input id="target-over-max" type="number" min="0" max="100" step="1" value="55"></label>
               </div>
               <input id="target-over-center" type="range" min="0" max="100" step="1" value="50">
               <div class="range-preview" id="target-over-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
             </div>
-            <span class="percent" id="target-over-value">45-55%</span>
           </div>
           <div class="row">
             <label for="target-brake-center">Уст. при торможении</label>
             <div class="window-editor">
               <div class="window-inputs">
                 <label class="mini-field" for="target-brake-min">Мин <input id="target-brake-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-brake-center-value">центр 50%</span>
+                <span class="center-readout" id="target-brake-center-value">центр 50</span>
                 <label class="mini-field" for="target-brake-max">Макс <input id="target-brake-max" type="number" min="0" max="100" step="1" value="55"></label>
               </div>
               <input id="target-brake-center" type="range" min="0" max="100" step="1" value="50">
               <div class="range-preview" id="target-brake-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
             </div>
-            <span class="percent" id="target-brake-value">45-55%</span>
           </div>
           <div class="row">
             <label for="target-corner-center">Повороты</label>
             <div class="window-editor">
               <div class="window-inputs">
                 <label class="mini-field" for="target-corner-min">Мин <input id="target-corner-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-corner-center-value">центр 50%</span>
+                <span class="center-readout" id="target-corner-center-value">центр 50</span>
                 <label class="mini-field" for="target-corner-max">Макс <input id="target-corner-max" type="number" min="0" max="100" step="1" value="55"></label>
               </div>
               <input id="target-corner-center" type="range" min="0" max="100" step="1" value="50">
               <div class="range-preview" id="target-corner-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
             </div>
-            <span class="percent" id="target-corner-value">45-55%</span>
           </div>
           <div class="row">
             <label for="target-traction-center">Сцеп. с поверхностью</label>
             <div class="window-editor">
               <div class="window-inputs">
                 <label class="mini-field" for="target-traction-min">Мин <input id="target-traction-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-traction-center-value">центр 50%</span>
+                <span class="center-readout" id="target-traction-center-value">центр 50</span>
                 <label class="mini-field" for="target-traction-max">Макс <input id="target-traction-max" type="number" min="0" max="100" step="1" value="55"></label>
               </div>
               <input id="target-traction-center" type="range" min="0" max="100" step="1" value="50">
               <div class="range-preview" id="target-traction-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
             </div>
-            <span class="percent" id="target-traction-value">45-55%</span>
           </div>
           <div class="row">
             <label for="target-straight-center">Прямые участки</label>
             <div class="window-editor">
               <div class="window-inputs">
                 <label class="mini-field" for="target-straight-min">Мин <input id="target-straight-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-straight-center-value">центр 50%</span>
+                <span class="center-readout" id="target-straight-center-value">центр 50</span>
                 <label class="mini-field" for="target-straight-max">Макс <input id="target-straight-max" type="number" min="0" max="100" step="1" value="55"></label>
               </div>
               <input id="target-straight-center" type="range" min="0" max="100" step="1" value="50">
               <div class="range-preview" id="target-straight-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
             </div>
-            <span class="percent" id="target-straight-value">45-55%</span>
           </div>
         </div>
 
         <div class="actions">
-          <p>0% это левый край шкалы, 100% правый. Задавай мин/макс бирюзового окна, а ползунок двигает его центр.</p>
+          <p>Задавай мин/макс бирюзового окна, а ползунок двигает его центр.</p>
           <button id="reset" class="secondary" type="button">Сброс</button>
           <button id="solve" type="button">Посчитать настройки</button>
         </div>
@@ -625,8 +610,7 @@
       document.getElementById(`target-${id}-min`).value = normalized.min;
       document.getElementById(`target-${id}-max`).value = normalized.max;
       document.getElementById(`target-${id}-center`).value = center;
-      document.getElementById(`target-${id}-center-value`).textContent = `центр ${center}%`;
-      document.getElementById(`target-${id}-value`).textContent = `${normalized.min}-${normalized.max}%`;
+      document.getElementById(`target-${id}-center-value`).textContent = `центр ${center}`;
       preview.style.setProperty("--window-left", `${normalized.min}%`);
       preview.style.setProperty("--window-width", `${normalized.max - normalized.min}%`);
       preview.style.setProperty("--window-center", `${center}%`);
@@ -670,17 +654,17 @@
     }
 
     function updateTargetDisplays() {
-      const parts = [];
       for (const m of metrics) {
         const window = readWindowPercent(m.id);
-        const written = writeWindowPercent(m.id, window.min, window.max);
-        parts.push(`${written.min}-${written.max}`);
+        writeWindowPercent(m.id, window.min, window.max);
       }
-      document.getElementById("targetSummary").textContent = parts.join(" / ");
+      document.getElementById("targetSummary").textContent = "мин / макс";
     }
 
     function resetTargets() {
       for (const m of metrics) {
+        document.getElementById(`target-${m.id}-min`).value = DEFAULT_WINDOW.min;
+        document.getElementById(`target-${m.id}-max`).value = DEFAULT_WINDOW.max;
         writeWindowPercent(m.id, DEFAULT_WINDOW.min, DEFAULT_WINDOW.max);
       }
       updateTargetDisplays();
@@ -769,7 +753,7 @@
       document.getElementById("summary").textContent = `лучшие ${top.length} вариантов`;
       const best = top[0];
       const notice = best && best.outsideMax > 0
-        ? `<div class="notice">Все окна одновременно не сходятся на дискретных ползунках: лучший компромисс попадает в ${best.hits}/5 окон, худший вылет за границу около ${Math.ceil(best.outsideMax * 100)}%. Расширь окно, если в игре оно шире, или бери вариант с меньшими +/- дельтами.</div>`
+        ? `<div class="notice">Все окна одновременно не сходятся: лучший вариант попадает в ${best.hits}/5, худший вылет за границу около ${Math.ceil(best.outsideMax * 100)}.</div>`
         : "";
       document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index, target)).join("");
     }
@@ -789,11 +773,11 @@
         const outside = predicted < min ? predicted - min : predicted > max ? predicted - max : 0;
         const sign = outside > 0 ? "+" : "";
         const deltaClass = outside === 0 ? "delta ok" : "delta";
-        const deltaText = outside === 0 ? "в окне" : `${sign}${outside}%`;
+        const deltaText = outside === 0 ? "" : ` <span class="${deltaClass}">${sign}${outside}</span>`;
         return `
           <div>
             <strong>${m.label}</strong>
-            ${predicted}% <span class="${deltaClass}">${deltaText}</span>
+            ${predicted}${deltaText}
           </div>
         `;
       }).join("");
@@ -802,7 +786,7 @@
         <article class="card">
           <div class="card-top">
             <span>${index === 0 ? "Лучший вариант" : `Вариант ${index + 1}`}</span>
-            <span class="score">в окне ${item.hits}/5, ср. от центра ${Math.round(item.avgError * 100)}%</span>
+            <span class="score">ok ${item.hits}/5, ср. ${Math.round(item.avgError * 100)}</span>
           </div>
           <div class="values">${valueHtml}</div>
           <div class="bias">${biasHtml}</div>
