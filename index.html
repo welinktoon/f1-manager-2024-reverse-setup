@@ -565,7 +565,7 @@
       <ol>
         <li>В игре смотри на бирюзовые оптимальные окна пяти характеристик.</li>
         <li>Выбери трассу из пресетов или задай левый и правый край нужных окон вручную.</li>
-        <li>Нажми «Посчитать настройки» и перенеси лучший вариант в игру.</li>
+        <li>Перенеси лучший вариант из топ-4 в игру.</li>
       </ol>
     </div>
 
@@ -978,7 +978,7 @@
             for (const camber of ranges.camber) {
               for (const toe of ranges.toe) {
                 const values = { front, rear, roll, camber, toe };
-                pushTop(top, { values, ...score(values, target) }, 8);
+                pushTop(top, { values, ...score(values, target) }, 4);
               }
             }
           }
