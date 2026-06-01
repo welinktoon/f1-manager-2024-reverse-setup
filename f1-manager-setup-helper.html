@@ -442,7 +442,7 @@
     }
 
     .metric-check {
-      min-height: 52px;
+      min-height: 36px;
       padding: 8px;
       border-radius: 6px;
       border: 1px solid rgba(255, 255, 255, .08);
@@ -453,12 +453,7 @@
     .metric-check strong {
       display: block;
       color: var(--text);
-      margin-bottom: 4px;
       font-size: 13px;
-    }
-
-    .metric-check span {
-      color: var(--muted);
     }
 
     .metric-check.ok {
@@ -995,9 +990,9 @@
 
     function metricStatus(value, targetWindow) {
       const error = metricErrors(value, targetWindow);
-      if (error.hit) return { className: "ok", label: "в окне" };
-      if (error.outside <= 0.03) return { className: "near", label: "рядом" };
-      return { className: "miss", label: "мимо" };
+      if (error.hit) return "ok";
+      if (error.outside <= 0.03) return "near";
+      return "miss";
     }
 
     function renderResult(item, index, target) {
@@ -1010,9 +1005,8 @@
       const checksHtml = metrics.map(m => {
         const status = metricStatus(item.bias[m.id], target[m.id]);
         return `
-          <div class="metric-check ${status.className}">
+          <div class="metric-check ${status}">
             <strong>${m.label}</strong>
-            <span>${status.label}</span>
           </div>
         `;
       }).join("");
