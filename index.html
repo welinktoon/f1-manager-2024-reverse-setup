@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#10131b">
+  <meta name="theme-color" content="#070b12">
   <title>F1 Manager Reverse Setup</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #10131b;
-      --panel: #1b2030;
-      --panel2: #252b3d;
-      --line: #384155;
-      --text: #f4f6fb;
-      --muted: #aeb6c6;
-      --cyan: #00e5ee;
-      --amber: #ffbe5c;
-      --field: #111521;
+      --bg: #070b12;
+      --panel: #111827;
+      --panel2: #1a2232;
+      --line: #334155;
+      --text: #f8fafc;
+      --muted: #b6c1d1;
+      --blue: #3b82f6;
+      --blue-soft: #1d4ed8;
+      --field: #0b1220;
       font-family: Inter, Segoe UI, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
@@ -30,14 +30,14 @@
       margin: 0;
       min-height: 100vh;
       background:
-        linear-gradient(120deg, rgba(0, 229, 238, .11), transparent 34%),
-        radial-gradient(circle at 80% 0%, rgba(255, 190, 92, .10), transparent 24%),
+        linear-gradient(120deg, rgba(59, 130, 246, .12), transparent 38%),
+        radial-gradient(circle at 85% 0%, rgba(148, 163, 184, .12), transparent 28%),
         var(--bg);
       color: var(--text);
     }
 
     main {
-      width: min(980px, calc(100% - 28px));
+      width: min(1380px, calc(100% - 28px));
       margin: 0 auto;
       padding: 24px 0 34px;
     }
@@ -66,10 +66,10 @@
     .badge {
       min-height: 36px;
       padding: 7px 12px;
-      border: 1px solid rgba(0, 229, 238, .5);
+      border: 1px solid rgba(59, 130, 246, .58);
       border-radius: 6px;
-      color: var(--cyan);
-      background: rgba(0, 229, 238, .08);
+      color: var(--text);
+      background: rgba(59, 130, 246, .14);
       font-weight: 800;
       white-space: nowrap;
     }
@@ -79,9 +79,9 @@
       gap: 8px;
       margin-bottom: 16px;
       padding: 14px 16px;
-      border: 1px solid rgba(0, 229, 238, .22);
+      border: 1px solid rgba(59, 130, 246, .24);
       border-radius: 8px;
-      background: rgba(0, 229, 238, .055);
+      background: rgba(59, 130, 246, .075);
     }
 
     .intro strong {
@@ -93,6 +93,83 @@
       padding-left: 20px;
       color: var(--muted);
       line-height: 1.5;
+    }
+
+    .preset-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .select-field {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 7px;
+      color: var(--text);
+      background: var(--field);
+      font: inherit;
+      font-weight: 800;
+      padding: 0 12px;
+    }
+
+    .preset-detail {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, .07);
+      border-radius: 8px;
+      background: rgba(17, 21, 33, .74);
+    }
+
+    .preset-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .preset-country {
+      color: var(--blue);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .preset-windows {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .preset-window {
+      min-height: 62px;
+      padding: 8px;
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .04);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .preset-window strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-size: 13px;
     }
 
     section {
@@ -128,6 +205,13 @@
       padding: 16px;
     }
 
+    .setup-layout {
+      display: grid;
+      grid-template-columns: minmax(500px, .95fr) minmax(430px, 1.05fr);
+      gap: 16px;
+      align-items: start;
+    }
+
     .targets {
       display: grid;
       gap: 10px;
@@ -153,7 +237,7 @@
     input[type="range"] {
       width: 100%;
       min-height: 34px;
-      accent-color: var(--cyan);
+      accent-color: var(--blue);
     }
 
     input[type="number"] {
@@ -194,7 +278,7 @@
     }
 
     .center-readout {
-      color: var(--cyan);
+      color: var(--blue);
       font-size: 12px;
       font-weight: 900;
       text-align: right;
@@ -222,8 +306,8 @@
     .window-fill {
       left: var(--window-left, 45%);
       width: var(--window-width, 10%);
-      background: linear-gradient(90deg, rgba(0,229,238,.35), rgba(0,229,238,.85));
-      box-shadow: 0 0 18px rgba(0,229,238,.22);
+      background: linear-gradient(90deg, rgba(37, 99, 235, .42), rgba(59, 130, 246, .92));
+      box-shadow: 0 0 18px rgba(59, 130, 246, .22);
     }
 
     .center-marker {
@@ -234,17 +318,9 @@
       opacity: .9;
     }
 
-    .scale-labels {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1;
-    }
-
     .actions {
       display: grid;
-      grid-template-columns: 1fr 160px 220px;
+      grid-template-columns: 1fr 160px;
       gap: 14px;
       align-items: center;
       margin-top: 16px;
@@ -253,17 +329,17 @@
     button {
       width: 100%;
       min-height: 42px;
-      border: 1px solid rgba(0, 229, 238, .55);
+      border: 1px solid rgba(59, 130, 246, .62);
       border-radius: 7px;
       color: var(--text);
-      background: linear-gradient(90deg, rgba(0, 229, 238, .20), rgba(255, 190, 92, .14));
+      background: linear-gradient(90deg, rgba(37, 99, 235, .32), rgba(71, 85, 105, .22));
       font: inherit;
       font-weight: 900;
       cursor: pointer;
     }
 
     button:hover {
-      border-color: var(--cyan);
+      border-color: var(--blue);
     }
 
     button.secondary {
@@ -287,8 +363,8 @@
     }
 
     .card:first-child {
-      border-color: rgba(0, 229, 238, .7);
-      background: rgba(0, 229, 238, .07);
+      border-color: rgba(59, 130, 246, .72);
+      background: rgba(59, 130, 246, .09);
     }
 
     .card-top {
@@ -300,13 +376,14 @@
     }
 
     .score {
-      color: var(--cyan);
+      color: var(--blue);
       font-size: 13px;
+      text-align: right;
     }
 
     .values {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(78px, 1fr));
       gap: 8px;
     }
 
@@ -335,21 +412,21 @@
     .delta {
       display: inline-block;
       margin-left: 5px;
-      color: var(--amber);
+      color: var(--muted);
       font-size: 12px;
       font-weight: 800;
     }
 
     .delta.ok {
-      color: var(--cyan);
+      color: var(--blue);
     }
 
     .notice {
       margin-bottom: 12px;
       padding: 10px 12px;
-      border: 1px solid rgba(255, 190, 92, .35);
+      border: 1px solid rgba(148, 163, 184, .35);
       border-radius: 7px;
-      background: rgba(255, 190, 92, .08);
+      background: rgba(148, 163, 184, .10);
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
@@ -357,7 +434,7 @@
 
     .bias {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(68px, 1fr));
       gap: 8px;
     }
 
@@ -382,6 +459,20 @@
       .actions {
         display: grid;
         grid-template-columns: 1fr;
+      }
+
+      .preset-controls,
+      .preset-windows {
+        grid-template-columns: 1fr;
+      }
+
+      .preset-title {
+        display: grid;
+      }
+
+      .preset-country {
+        text-align: left;
+        white-space: normal;
       }
 
       .head {
@@ -429,6 +520,12 @@
       }
 
     }
+
+    @media (max-width: 980px) {
+      .setup-layout {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -445,124 +542,167 @@
       <p><strong>Для чего это:</strong> помогает быстрее попасть в оптимальные диапазоны настройки болида в F1 Manager 2024. Точность не идеальная из-за скрытых игровых округлений, но окно мин/макс обычно сильно ускоряет подбор.</p>
       <ol>
         <li>В игре смотри на бирюзовые оптимальные окна пяти характеристик.</li>
-        <li>На этой странице задай левый и правый край нужных окон.</li>
+        <li>Выбери трассу из пресетов или задай левый и правый край нужных окон вручную.</li>
         <li>Нажми «Посчитать настройки» и перенеси лучший вариант в игру.</li>
       </ol>
     </div>
 
-    <section>
+    <section style="margin-bottom:16px">
       <div class="head">
-        <h2>Итоговые метки</h2>
-        <p id="targetSummary">мин / макс</p>
+        <h2>Пресеты трасс</h2>
+        <p id="presetSummary">календарь F1 2024</p>
       </div>
       <div class="body">
-        <div class="targets">
-          <div class="row">
-            <label for="target-over-center">Изб. повор.</label>
-            <div class="window-editor">
-              <div class="window-inputs">
-                <label class="mini-field" for="target-over-min">Мин <input id="target-over-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-over-center-value">центр 50</span>
-                <label class="mini-field" for="target-over-max">Макс <input id="target-over-max" type="number" min="0" max="100" step="1" value="55"></label>
-              </div>
-              <input id="target-over-center" type="range" min="0" max="100" step="1" value="50">
-              <div class="range-preview" id="target-over-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
-            </div>
-          </div>
-          <div class="row">
-            <label for="target-brake-center">Уст. при торможении</label>
-            <div class="window-editor">
-              <div class="window-inputs">
-                <label class="mini-field" for="target-brake-min">Мин <input id="target-brake-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-brake-center-value">центр 50</span>
-                <label class="mini-field" for="target-brake-max">Макс <input id="target-brake-max" type="number" min="0" max="100" step="1" value="55"></label>
-              </div>
-              <input id="target-brake-center" type="range" min="0" max="100" step="1" value="50">
-              <div class="range-preview" id="target-brake-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
-            </div>
-          </div>
-          <div class="row">
-            <label for="target-corner-center">Повороты</label>
-            <div class="window-editor">
-              <div class="window-inputs">
-                <label class="mini-field" for="target-corner-min">Мин <input id="target-corner-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-corner-center-value">центр 50</span>
-                <label class="mini-field" for="target-corner-max">Макс <input id="target-corner-max" type="number" min="0" max="100" step="1" value="55"></label>
-              </div>
-              <input id="target-corner-center" type="range" min="0" max="100" step="1" value="50">
-              <div class="range-preview" id="target-corner-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
-            </div>
-          </div>
-          <div class="row">
-            <label for="target-traction-center">Сцеп. с поверхностью</label>
-            <div class="window-editor">
-              <div class="window-inputs">
-                <label class="mini-field" for="target-traction-min">Мин <input id="target-traction-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-traction-center-value">центр 50</span>
-                <label class="mini-field" for="target-traction-max">Макс <input id="target-traction-max" type="number" min="0" max="100" step="1" value="55"></label>
-              </div>
-              <input id="target-traction-center" type="range" min="0" max="100" step="1" value="50">
-              <div class="range-preview" id="target-traction-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
-            </div>
-          </div>
-          <div class="row">
-            <label for="target-straight-center">Прямые участки</label>
-            <div class="window-editor">
-              <div class="window-inputs">
-                <label class="mini-field" for="target-straight-min">Мин <input id="target-straight-min" type="number" min="0" max="100" step="1" value="45"></label>
-                <span class="center-readout" id="target-straight-center-value">центр 50</span>
-                <label class="mini-field" for="target-straight-max">Макс <input id="target-straight-max" type="number" min="0" max="100" step="1" value="55"></label>
-              </div>
-              <input id="target-straight-center" type="range" min="0" max="100" step="1" value="50">
-              <div class="range-preview" id="target-straight-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
-              <div class="scale-labels"><span>0</span><span>50</span><span>100</span></div>
-            </div>
-          </div>
+        <div class="preset-controls">
+          <label class="select-field" for="trackPreset">
+            Трасса
+            <select id="trackPreset"></select>
+          </label>
+          <button id="clearPreset" class="secondary" type="button">Ручной режим</button>
         </div>
-
-        <div class="actions">
-          <p>Задавай мин/макс бирюзового окна, а ползунок двигает его центр.</p>
-          <button id="reset" class="secondary" type="button">Сброс</button>
-          <button id="solve" type="button">Посчитать настройки</button>
-        </div>
+        <div class="preset-detail" id="presetDetail"></div>
       </div>
     </section>
 
-    <section style="margin-top:16px">
-      <div class="head">
-        <h2>Настройки</h2>
-        <p id="summary">готово</p>
-      </div>
-      <div class="body">
-        <div class="results" id="results"></div>
-      </div>
-    </section>
+    <div class="setup-layout">
+      <section>
+        <div class="head">
+          <h2>Итоговые метки</h2>
+          <p id="targetSummary">мин / макс</p>
+        </div>
+        <div class="body">
+          <div class="targets">
+            <div class="row">
+              <label for="target-over-center">Изб. повор.</label>
+              <div class="window-editor">
+                <div class="window-inputs">
+                  <label class="mini-field" for="target-over-min">Мин <input id="target-over-min" type="number" min="0" max="100" step="1" value="45"></label>
+                  <span class="center-readout" id="target-over-center-value">центр 50</span>
+                  <label class="mini-field" for="target-over-max">Макс <input id="target-over-max" type="number" min="0" max="100" step="1" value="55"></label>
+                </div>
+                <input id="target-over-center" type="range" min="0" max="100" step="1" value="50">
+                <div class="range-preview" id="target-over-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              </div>
+            </div>
+            <div class="row">
+              <label for="target-brake-center">Уст. при торможении</label>
+              <div class="window-editor">
+                <div class="window-inputs">
+                  <label class="mini-field" for="target-brake-min">Мин <input id="target-brake-min" type="number" min="0" max="100" step="1" value="45"></label>
+                  <span class="center-readout" id="target-brake-center-value">центр 50</span>
+                  <label class="mini-field" for="target-brake-max">Макс <input id="target-brake-max" type="number" min="0" max="100" step="1" value="55"></label>
+                </div>
+                <input id="target-brake-center" type="range" min="0" max="100" step="1" value="50">
+                <div class="range-preview" id="target-brake-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              </div>
+            </div>
+            <div class="row">
+              <label for="target-corner-center">Повороты</label>
+              <div class="window-editor">
+                <div class="window-inputs">
+                  <label class="mini-field" for="target-corner-min">Мин <input id="target-corner-min" type="number" min="0" max="100" step="1" value="45"></label>
+                  <span class="center-readout" id="target-corner-center-value">центр 50</span>
+                  <label class="mini-field" for="target-corner-max">Макс <input id="target-corner-max" type="number" min="0" max="100" step="1" value="55"></label>
+                </div>
+                <input id="target-corner-center" type="range" min="0" max="100" step="1" value="50">
+                <div class="range-preview" id="target-corner-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              </div>
+            </div>
+            <div class="row">
+              <label for="target-traction-center">Сцеп. с поверхностью</label>
+              <div class="window-editor">
+                <div class="window-inputs">
+                  <label class="mini-field" for="target-traction-min">Мин <input id="target-traction-min" type="number" min="0" max="100" step="1" value="45"></label>
+                  <span class="center-readout" id="target-traction-center-value">центр 50</span>
+                  <label class="mini-field" for="target-traction-max">Макс <input id="target-traction-max" type="number" min="0" max="100" step="1" value="55"></label>
+                </div>
+                <input id="target-traction-center" type="range" min="0" max="100" step="1" value="50">
+                <div class="range-preview" id="target-traction-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              </div>
+            </div>
+            <div class="row">
+              <label for="target-straight-center">Прямые участки</label>
+              <div class="window-editor">
+                <div class="window-inputs">
+                  <label class="mini-field" for="target-straight-min">Мин <input id="target-straight-min" type="number" min="0" max="100" step="1" value="45"></label>
+                  <span class="center-readout" id="target-straight-center-value">центр 50</span>
+                  <label class="mini-field" for="target-straight-max">Макс <input id="target-straight-max" type="number" min="0" max="100" step="1" value="55"></label>
+                </div>
+                <input id="target-straight-center" type="range" min="0" max="100" step="1" value="50">
+                <div class="range-preview" id="target-straight-preview"><span class="window-fill"></span><span class="center-marker"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <p>Меняй окна вручную, калькулятор пересчитает варианты сам.</p>
+            <button id="reset" class="secondary" type="button">Сброс</button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="head">
+          <h2>Настройки</h2>
+          <p id="summary">готово</p>
+        </div>
+        <div class="body">
+          <div class="results" id="results"></div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script>
     const settings = [
-      { id: "front", label: "Переднее", suffix: "°", left: 0, right: 10, step: 0.5 },
-      { id: "rear", label: "Заднее", suffix: "°", left: 9, right: 16, step: 0.5 },
-      { id: "roll", label: "Anti-roll", suffix: "", left: 9, right: 1, step: 1, format: v => `${v}:${10 - v}` },
+      { id: "front", label: "Переднее крыло", suffix: "°", left: 0, right: 10, step: 0.5 },
+      { id: "rear", label: "Заднее крыло", suffix: "°", left: 9, right: 16, step: 0.5 },
+      { id: "roll", label: "Стабилизатор", suffix: "", left: 9, right: 1, step: 1, format: v => `${v}:${10 - v}` },
       { id: "camber", label: "Развал", suffix: "°", left: -2.7, right: -3.5, step: 0.05 },
-      { id: "toe", label: "Toe", suffix: "°", left: 0, right: 1, step: 0.05 }
+      { id: "toe", label: "Схождение", suffix: "°", left: 0, right: 1, step: 0.05 }
     ];
 
     const metrics = [
-      { id: "over", label: "Изб." },
-      { id: "brake", label: "Торм." },
-      { id: "corner", label: "Повор." },
-      { id: "traction", label: "Сцеп." },
-      { id: "straight", label: "Прям." }
+      { id: "over", label: "Избыток" },
+      { id: "brake", label: "Торможение" },
+      { id: "corner", label: "Повороты" },
+      { id: "traction", label: "Сцепление" },
+      { id: "straight", label: "Прямые" }
     ];
+
+    const trackPresets = [
+      { id: "bahrain", name: "Бахрейн", circuit: "Сахир", country: "Бахрейн", windows: [[56, 62], [32, 41], [49, 58], [34, 42], [63, 71]] },
+      { id: "jeddah", name: "Саудовская Аравия", circuit: "Джидда", country: "Саудовская Аравия", windows: [[71, 80], [7, 15], [72, 77], [9, 21], [60, 75]] },
+      { id: "australia", name: "Австралия", circuit: "Альберт-парк", country: "Австралия", windows: [[59, 66], [38, 47], [59, 71], [30, 40], [40, 46]] },
+      { id: "japan", name: "Япония", circuit: "Судзука", country: "Япония", windows: [[57, 63], [19, 26], [62, 73], [37, 52], [32, 48]] },
+      { id: "china", name: "Китай", circuit: "Шанхай", country: "Китай", windows: [[44, 56], [44, 56], [44, 56], [44, 56], [44, 56]] },
+      { id: "miami", name: "Майами", circuit: "Майами", country: "США", windows: [[52, 61], [25, 47], [65, 77], [49, 70], [33, 44]] },
+      { id: "imola", name: "Эмилия-Романья", circuit: "Имола", country: "Италия", windows: [[55, 62], [21, 31], [66, 75], [37, 57], [41, 51]] },
+      { id: "monaco", name: "Монако", circuit: "Монте-Карло", country: "Монако", windows: [[53, 61], [27, 53], [77, 99], [24, 39], [0, 2]] },
+      { id: "canada", name: "Канада", circuit: "Монреаль", country: "Канада", windows: [[39, 51], [54, 66], [36, 42], [58, 75], [58, 65]] },
+      { id: "spain", name: "Испания", circuit: "Каталунья", country: "Испания", windows: [[51, 66], [39, 49], [67, 83], [27, 41], [18, 31]] },
+      { id: "austria", name: "Австрия", circuit: "Ред Булл Ринг", country: "Австрия", windows: [[37, 44], [54, 70], [40, 53], [71, 80], [36, 46]] },
+      { id: "great-britain", name: "Великобритания", circuit: "Сильверстоун", country: "Великобритания", windows: [[62, 70], [25, 37], [54, 69], [14, 25], [55, 70]] },
+      { id: "hungary", name: "Венгрия", circuit: "Хунгароринг", country: "Венгрия", windows: [[48, 52], [51, 63], [59, 76], [67, 76], [6, 22]] },
+      { id: "belgium", name: "Бельгия", circuit: "Спа-Франкоршам", country: "Бельгия", windows: [[55, 65], [34, 48], [36, 46], [41, 53], [82, 98]] },
+      { id: "netherlands", name: "Нидерланды", circuit: "Зандворт", country: "Нидерланды", windows: [[63, 68], [38, 54], [64, 80], [31, 48], [25, 41]] },
+      { id: "italy", name: "Италия", circuit: "Монца", country: "Италия", windows: [[44, 54], [60, 69], [11, 20], [63, 71], [97, 100]] },
+      { id: "azerbaijan", name: "Азербайджан", circuit: "Баку", country: "Азербайджан", windows: [[42, 47], [64, 71], [20, 25], [60, 68], [78, 87]] },
+      { id: "singapore", name: "Сингапур", circuit: "Марина-Бэй", country: "Сингапур", windows: [[37, 50], [64, 76], [57, 67], [34, 54], [6, 15]] },
+      { id: "usa", name: "США", circuit: "Остин", country: "США", windows: [[57, 63], [27, 45], [61, 76], [56, 70], [32, 48]] },
+      { id: "mexico", name: "Мексика", circuit: "Мехико", country: "Мексика", windows: [[49, 58], [33, 47], [60, 70], [58, 72], [35, 50]] },
+      { id: "brazil", name: "Бразилия", circuit: "Интерлагос", country: "Бразилия", windows: [[51, 59], [38, 50], [53, 68], [55, 72], [41, 51]] },
+      { id: "las-vegas", name: "Лас-Вегас", circuit: "Лас-Вегас", country: "США", source: "расчетное окно вокруг пресета f1setup.it", windows: [[30, 40], [61, 71], [12, 22], [72, 82], [76, 86]] },
+      { id: "qatar", name: "Катар", circuit: "Лусаил", country: "Катар", source: "расчетное окно вокруг пресета f1setup.it", windows: [[60, 70], [37, 47], [65, 75], [27, 37], [36, 46]] },
+      { id: "abu-dhabi", name: "Абу-Даби", circuit: "Яс-Марина", country: "ОАЭ", windows: [[44, 54], [48, 63], [47, 63], [46, 70], [43, 57]] }
+    ];
+
+    let activePresetId = "";
 
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
     const round = (value, decimals = 3) => Number(value.toFixed(decimals));
     const DEFAULT_WINDOW = { min: 45, max: 55 };
+    let solveTimer = null;
 
     function setupIndexes(values) {
       return {
@@ -658,16 +798,84 @@
         const window = readWindowPercent(m.id);
         writeWindowPercent(m.id, window.min, window.max);
       }
-      document.getElementById("targetSummary").textContent = "мин / макс";
+      const preset = trackPresets.find(track => track.id === activePresetId);
+      document.getElementById("targetSummary").textContent = preset ? `пресет: ${preset.name}` : "мин / макс";
     }
 
     function resetTargets() {
+      activePresetId = "";
+      document.getElementById("trackPreset").value = "";
       for (const m of metrics) {
         document.getElementById(`target-${m.id}-min`).value = DEFAULT_WINDOW.min;
         document.getElementById(`target-${m.id}-max`).value = DEFAULT_WINDOW.max;
         writeWindowPercent(m.id, DEFAULT_WINDOW.min, DEFAULT_WINDOW.max);
       }
       updateTargetDisplays();
+      updatePresetDetail();
+      solve();
+    }
+
+    function renderPresetWindows(preset) {
+      return preset.windows.map((window, index) => `
+        <div class="preset-window">
+          <strong>${metrics[index].label}</strong>
+          ${window[0]}-${window[1]}
+        </div>
+      `).join("");
+    }
+
+    function updatePresetDetail() {
+      const selectedId = document.getElementById("trackPreset").value;
+      const preset = trackPresets.find(track => track.id === selectedId);
+      const summary = document.getElementById("presetSummary");
+      const detail = document.getElementById("presetDetail");
+
+      if (!preset) {
+        summary.textContent = "календарь F1 2024";
+        detail.innerHTML = `
+          <div class="preset-title">
+            <span>Выбери трассу, чтобы заполнить целевые окна</span>
+            <span class="preset-country">ручной режим</span>
+          </div>
+          <p>Можно оставить ручной режим и двигать мин/макс ниже.</p>
+        `;
+        return;
+      }
+
+      summary.textContent = activePresetId === preset.id ? "пресет применен" : "готов к применению";
+      detail.innerHTML = `
+        <div class="preset-title">
+          <span>${preset.name}: ${preset.circuit}</span>
+          <span class="preset-country">${preset.country}</span>
+        </div>
+        <div class="preset-windows">${renderPresetWindows(preset)}</div>
+        ${preset.source ? `<p>${preset.source}</p>` : `<p>Окна перенесены из пресетов f1setup.it.</p>`}
+      `;
+    }
+
+    function populateTrackPresets() {
+      const select = document.getElementById("trackPreset");
+      select.innerHTML = `<option value="">Ручной режим</option>` + trackPresets.map((preset, index) => (
+        `<option value="${preset.id}">${index + 1}. ${preset.name} - ${preset.circuit}</option>`
+      )).join("");
+      updatePresetDetail();
+    }
+
+    function applyTrackPreset(id) {
+      const preset = trackPresets.find(track => track.id === id);
+      if (!preset) {
+        resetTargets();
+        return;
+      }
+
+      activePresetId = preset.id;
+      document.getElementById("trackPreset").value = preset.id;
+      for (const [index, metric] of metrics.entries()) {
+        const [min, max] = preset.windows[index];
+        writeWindowPercent(metric.id, min, max);
+      }
+      updateTargetDisplays();
+      updatePresetDetail();
       solve();
     }
 
@@ -731,6 +939,11 @@
       if (list.length > limit) list.pop();
     }
 
+    function scheduleSolve() {
+      window.clearTimeout(solveTimer);
+      solveTimer = window.setTimeout(solve, 120);
+    }
+
     function solve() {
       updateTargetDisplays();
       const target = readTargetBias();
@@ -750,62 +963,60 @@
         }
       }
 
-      document.getElementById("summary").textContent = `лучшие ${top.length} вариантов`;
+      document.getElementById("summary").textContent = "готово";
       const best = top[0];
       const notice = best && best.outsideMax > 0
-        ? `<div class="notice">Все окна одновременно не сходятся: лучший вариант попадает в ${best.hits}/5, худший вылет за границу около ${Math.ceil(best.outsideMax * 100)}.</div>`
+        ? `<div class="notice">Все окна одновременно не сходятся. Лучший вариант попадает в ${best.hits} из 5 меток.</div>`
         : "";
-      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index, target)).join("");
+      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index)).join("");
     }
 
-    function renderResult(item, index, target) {
+    function renderResult(item, index) {
       const valueHtml = settings.map(s => `
         <div class="value">
           <span>${s.label}</span>
           <strong>${formatValue(s, item.values[s.id])}</strong>
         </div>
       `).join("");
-
-      const biasHtml = metrics.map(m => {
-        const predicted = Math.round(item.bias[m.id] * 100);
-        const min = Math.round(target[m.id].min * 100);
-        const max = Math.round(target[m.id].max * 100);
-        const outside = predicted < min ? predicted - min : predicted > max ? predicted - max : 0;
-        const sign = outside > 0 ? "+" : "";
-        const deltaClass = outside === 0 ? "delta ok" : "delta";
-        const deltaText = outside === 0 ? "" : ` <span class="${deltaClass}">${sign}${outside}</span>`;
-        return `
-          <div>
-            <strong>${m.label}</strong>
-            ${predicted}${deltaText}
-          </div>
-        `;
-      }).join("");
+      const hitText = item.hits === metrics.length ? "Все метки в окне" : `${item.hits} из ${metrics.length} в окне`;
 
       return `
         <article class="card">
           <div class="card-top">
             <span>${index === 0 ? "Лучший вариант" : `Вариант ${index + 1}`}</span>
-            <span class="score">ok ${item.hits}/5, ср. ${Math.round(item.avgError * 100)}</span>
+            <span class="score">${hitText}</span>
           </div>
           <div class="values">${valueHtml}</div>
-          <div class="bias">${biasHtml}</div>
         </article>
       `;
     }
 
     for (const m of metrics) {
-      document.getElementById(`target-${m.id}-min`).addEventListener("input", () => updateWindowEdge(m.id, "min"));
-      document.getElementById(`target-${m.id}-max`).addEventListener("input", () => updateWindowEdge(m.id, "max"));
+      document.getElementById(`target-${m.id}-min`).addEventListener("input", () => {
+        activePresetId = "";
+        updateWindowEdge(m.id, "min");
+        updatePresetDetail();
+        scheduleSolve();
+      });
+      document.getElementById(`target-${m.id}-max`).addEventListener("input", () => {
+        activePresetId = "";
+        updateWindowEdge(m.id, "max");
+        updatePresetDetail();
+        scheduleSolve();
+      });
       document.getElementById(`target-${m.id}-center`).addEventListener("input", event => {
+        activePresetId = "";
         moveWindowByCenter(m.id, event.target.value);
         updateTargetDisplays();
+        updatePresetDetail();
+        scheduleSolve();
       });
     }
-    document.getElementById("solve").addEventListener("click", solve);
+    document.getElementById("trackPreset").addEventListener("change", event => applyTrackPreset(event.target.value));
+    document.getElementById("clearPreset").addEventListener("click", resetTargets);
     document.getElementById("reset").addEventListener("click", resetTargets);
-    updateTargetDisplays();
-    solve();
+    populateTrackPresets();
+    applyTrackPreset(trackPresets[0].id);
   </script>
 </body>
 </html>
