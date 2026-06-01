@@ -18,6 +18,9 @@
       --muted: #b6c1d1;
       --blue: #3b82f6;
       --blue-soft: #1d4ed8;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
       --field: #0b1220;
       font-family: Inter, Segoe UI, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -432,26 +435,45 @@
       line-height: 1.45;
     }
 
-    .bias {
+    .metric-checks {
       display: grid;
       grid-template-columns: repeat(5, minmax(68px, 1fr));
       gap: 8px;
     }
 
-    .bias div {
+    .metric-check {
+      min-height: 52px;
       padding: 8px;
       border-radius: 6px;
-      background: rgba(255,255,255,.035);
-      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, .08);
       font-size: 12px;
       line-height: 1.25;
     }
 
-    .bias strong {
+    .metric-check strong {
       display: block;
       color: var(--text);
       margin-bottom: 4px;
       font-size: 13px;
+    }
+
+    .metric-check span {
+      color: var(--muted);
+    }
+
+    .metric-check.ok {
+      border-color: rgba(34, 197, 94, .58);
+      background: rgba(34, 197, 94, .12);
+    }
+
+    .metric-check.near {
+      border-color: rgba(234, 179, 8, .62);
+      background: rgba(234, 179, 8, .12);
+    }
+
+    .metric-check.miss {
+      border-color: rgba(239, 68, 68, .62);
+      background: rgba(239, 68, 68, .12);
     }
 
     @media (max-width: 760px) {
@@ -488,7 +510,7 @@
 
       .row,
       .values,
-      .bias {
+      .metric-checks {
         grid-template-columns: 1fr;
       }
 
@@ -968,16 +990,32 @@
       const notice = best && best.outsideMax > 0
         ? `<div class="notice">Все окна одновременно не сходятся. Лучший вариант попадает в ${best.hits} из 5 меток.</div>`
         : "";
-      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index)).join("");
+      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index, target)).join("");
     }
 
-    function renderResult(item, index) {
+    function metricStatus(value, targetWindow) {
+      const error = metricErrors(value, targetWindow);
+      if (error.hit) return { className: "ok", label: "в окне" };
+      if (error.outside <= 0.03) return { className: "near", label: "рядом" };
+      return { className: "miss", label: "мимо" };
+    }
+
+    function renderResult(item, index, target) {
       const valueHtml = settings.map(s => `
         <div class="value">
           <span>${s.label}</span>
           <strong>${formatValue(s, item.values[s.id])}</strong>
         </div>
       `).join("");
+      const checksHtml = metrics.map(m => {
+        const status = metricStatus(item.bias[m.id], target[m.id]);
+        return `
+          <div class="metric-check ${status.className}">
+            <strong>${m.label}</strong>
+            <span>${status.label}</span>
+          </div>
+        `;
+      }).join("");
       const hitText = item.hits === metrics.length ? "Все метки в окне" : `${item.hits} из ${metrics.length} в окне`;
 
       return `
@@ -987,6 +1025,7 @@
             <span class="score">${hitText}</span>
           </div>
           <div class="values">${valueHtml}</div>
+          <div class="metric-checks">${checksHtml}</div>
         </article>
       `;
     }
