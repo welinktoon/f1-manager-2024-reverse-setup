@@ -412,6 +412,21 @@
       line-height: 1.1;
     }
 
+    .value.ok {
+      border-color: rgba(34, 197, 94, .62);
+      background: rgba(34, 197, 94, .11);
+    }
+
+    .value.near {
+      border-color: rgba(234, 179, 8, .66);
+      background: rgba(234, 179, 8, .11);
+    }
+
+    .value.miss {
+      border-color: rgba(239, 68, 68, .66);
+      background: rgba(239, 68, 68, .11);
+    }
+
     .delta {
       display: inline-block;
       margin-left: 5px;
@@ -433,42 +448,6 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
-    }
-
-    .metric-checks {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(68px, 1fr));
-      gap: 8px;
-    }
-
-    .metric-check {
-      min-height: 36px;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      font-size: 12px;
-      line-height: 1.25;
-    }
-
-    .metric-check strong {
-      display: block;
-      color: var(--text);
-      font-size: 13px;
-    }
-
-    .metric-check.ok {
-      border-color: rgba(34, 197, 94, .58);
-      background: rgba(34, 197, 94, .12);
-    }
-
-    .metric-check.near {
-      border-color: rgba(234, 179, 8, .62);
-      background: rgba(234, 179, 8, .12);
-    }
-
-    .metric-check.miss {
-      border-color: rgba(239, 68, 68, .62);
-      background: rgba(239, 68, 68, .12);
     }
 
     @media (max-width: 760px) {
@@ -504,8 +483,7 @@
       }
 
       .row,
-      .values,
-      .metric-checks {
+      .values {
         grid-template-columns: 1fr;
       }
 
@@ -985,41 +963,30 @@
       const notice = best && best.outsideMax > 0
         ? `<div class="notice">Все окна одновременно не сходятся. Лучший вариант попадает в ${best.hits} из 5 меток.</div>`
         : "";
-      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index, target)).join("");
+      document.getElementById("results").innerHTML = notice + top.map((item, index) => renderResult(item, index)).join("");
     }
 
-    function metricStatus(value, targetWindow) {
-      const error = metricErrors(value, targetWindow);
-      if (error.hit) return "ok";
-      if (error.outside <= 0.03) return "near";
+    function setupStatus(item) {
+      if (item.hits === metrics.length) return "ok";
+      if (item.outsideMax <= 0.03) return "near";
       return "miss";
     }
 
-    function renderResult(item, index, target) {
+    function renderResult(item, index) {
+      const status = setupStatus(item);
       const valueHtml = settings.map(s => `
-        <div class="value">
+        <div class="value ${status}">
           <span>${s.label}</span>
           <strong>${formatValue(s, item.values[s.id])}</strong>
         </div>
       `).join("");
-      const checksHtml = metrics.map(m => {
-        const status = metricStatus(item.bias[m.id], target[m.id]);
-        return `
-          <div class="metric-check ${status}">
-            <strong>${m.label}</strong>
-          </div>
-        `;
-      }).join("");
-      const hitText = item.hits === metrics.length ? "Все метки в окне" : `${item.hits} из ${metrics.length} в окне`;
 
       return `
         <article class="card">
           <div class="card-top">
             <span>${index === 0 ? "Лучший вариант" : `Вариант ${index + 1}`}</span>
-            <span class="score">${hitText}</span>
           </div>
           <div class="values">${valueHtml}</div>
-          <div class="metric-checks">${checksHtml}</div>
         </article>
       `;
     }
